@@ -2,9 +2,136 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Exemplo HTML e Python</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Contato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        footer {
+            text-align: center;
+            padding: 1em;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ oiii }}</h1>
+    <header>
+        <h1>Formulário de Contato</h1>
+    </header>
+
+    <div class="container">
+        <form id="contactForm" onsubmit="return validateForm(event)">
+            <div class="form-group">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+                <span class="error" id="nameError">Por favor, insira seu nome.</span>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error" id="emailError">Por favor, insira um e-mail válido.</span>
+            </div>
+            <div class="form-group">
+                <label for="message">Mensagem:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+                <span class="error" id="messageError">Por favor, insira uma mensagem.</span>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 - Todos os direitos reservados</p>
+    </footer>
+
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error').forEach(error => error.style.display = 'none');
+
+            // Validação do nome
+            const name = document.getElementById('name').value;
+            if (name.trim() === '') {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação do e-mail
+            const email = document.getElementById('email').value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validação da mensagem
+            const message = document.getElementById('message').value;
+            if (message.trim() === '') {
+                document.getElementById('messageError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Formulário enviado com sucesso!');
+                document.getElementById('contactForm').reset();
+            }
+
+            return isValid;
+        }
+    </script>
 </body>
 </html>
